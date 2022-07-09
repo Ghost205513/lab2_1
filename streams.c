@@ -39,7 +39,7 @@ char *readline_() {
     return res;
 }
 
-void *read_row(char *str, size_t *n, RingInfo *ring_row){
+void *read_row(char *str, size_t *n, RingInfo *ring_row) {
     *n = 0;
     char *token = strtok(str, " \t");
     void *row = NULL;
@@ -63,7 +63,7 @@ void *read_row(char *str, size_t *n, RingInfo *ring_row){
     return row;
 }//
 
-void *copy_row(void *dst, const void *src, size_t n, RingInfo ringInfo){
+void *copy_row(void *dst, const void *src, size_t n, RingInfo ringInfo) {
     if (dst)
         free(dst);
 
@@ -83,7 +83,7 @@ void *copy_row(void *dst, const void *src, size_t n, RingInfo ringInfo){
     return dst;
 }
 
-Matrix *read_matrix_keyboard(){
+Matrix *read_matrix_keyboard() {
     Matrix *ans = calloc(1, sizeof(Matrix));
     setRows(ans, 0);
     setColumns(ans, 0);
@@ -96,20 +96,20 @@ Matrix *read_matrix_keyboard(){
     if (!input)
         return ans;
 
-    while(input){
+    while(input) {
         size_t n;
         RingInfo ring_row;
         row = read_row(input, &n, &ring_row);
 
-        if (!getColumns(*ans)){
+        if (!getColumns(*ans)) {
             setColumns(ans, n);
         }
 
-        if (!getRingInfo(*ans)){
+        if (!getRingInfo(*ans)) {
             setRingInfo(ans, &ring_row);
         }
 
-        if (!row || n != getColumns(*ans) || getSize(ring_row) != getSize(*getRingInfo(*ans))){
+        if (!row || n != getColumns(*ans) || getSize(ring_row) != getSize(*getRingInfo(*ans))) {
 
             if (n != getColumns(*ans))
                 free(row);
@@ -142,7 +142,7 @@ Matrix *read_matrix_keyboard(){
     return ans;
 }
 
-Matrix *read_matrix_binary_file(){
+Matrix *read_matrix_binary_file() {
     Matrix *ans = calloc(1, sizeof(Matrix));
     setRows(ans, 0);
     setColumns(ans, 0);
@@ -155,7 +155,7 @@ Matrix *read_matrix_binary_file(){
     file = fopen(input, "rb");
     free(input);
 
-    if (!file){
+    if (!file) {
         printf("Can't open file.\n");
         fclose(file);
         return ans;
@@ -164,7 +164,7 @@ Matrix *read_matrix_binary_file(){
     fseek(file, 0, SEEK_END);
     size = ftell(file);
 
-    if (size < 3 * sizeof(size_t)){
+    if (size < 3 * sizeof(size_t)) {
         printf("Wrong input data.\n");
         fclose(file);
         return ans;
@@ -177,7 +177,7 @@ Matrix *read_matrix_binary_file(){
         setRingInfo(ans, NewRingComplex());
     else if (mod == 1)
         setRingInfo(ans, NewRingInt());
-    else{
+    else {
         printf("Wrong input data.\n");
         fclose(file);
         return ans;
@@ -192,7 +192,7 @@ Matrix *read_matrix_binary_file(){
     setColumns(ans, columns);
 
     if ((mod == 0 && size != sizeof(double complex) * rows * columns + 3 * sizeof(size_t)) ||
-    (mod == 1 && size != sizeof(int) * rows * columns + 3 * sizeof(size_t))){
+    (mod == 1 && size != sizeof(int) * rows * columns + 3 * sizeof(size_t))) {
         printf("Wrong input data.\n");
         fclose(file);
         return ans;
@@ -200,13 +200,12 @@ Matrix *read_matrix_binary_file(){
 
     if (mod == 0) {
         double complex **ans_body = calloc(rows, sizeof(double complex *));
-        for(size_t i = 0; i < rows; i++){
+        for (size_t i = 0; i < rows; i++) {
             ans_body[i] = calloc(columns, sizeof(double complex));
             fread(ans_body[i], sizeof(double complex), columns, file);
         }
         setBody(ans, (void**) ans_body);
-    }
-    else{
+    } else {
         int **ans_body = calloc(rows, sizeof(int *));
         for(size_t i = 0; i < rows; i++){
             ans_body[i] = calloc(columns, sizeof(int));
@@ -220,7 +219,7 @@ Matrix *read_matrix_binary_file(){
     return ans;
 }
 
-void print_matrix(Matrix src){
+void print_matrix(Matrix src) {
     for(size_t i = 0; i < src.rows; i++){
         if (getRingInfo(src)->size == sizeof(double complex))
             printf("%f + i%f", creal(((double complex **) getBody(src))[i][0]), cimag(((double complex **) getBody(src))[i][0]));
@@ -236,7 +235,7 @@ void print_matrix(Matrix src){
     }
 }
 
-void print_matrix_binary_file(Matrix src){
+void print_matrix_binary_file(Matrix src) {
     FILE *file;
 
     printf("Enter file path.\n");
@@ -272,7 +271,13 @@ void print_matrix_binary_file(Matrix src){
     fclose(file);
 }
 
-int *check_int(const char *str){
+double complex *check_complex(char *str) {
+    if (!str)
+        return NULL;
+    char *token = strtok(str, " \t");
+}
+
+int *check_int(const char *str) {
     if (!str)
         return NULL;
     int len_max = (int) log10(pow(2,sizeof(int)*8 - 1) - 1) + 1;
@@ -303,11 +308,11 @@ int *check_int(const char *str){
 
 
 
-int gen_int(){
+int gen_int() {
     return rand() % 2 ? -1 * rand() % (int) (pow(2, sizeof(int) * 8 - 1) - 1) : rand() % (int) (pow(2, sizeof(int) * 8 - 1) - 1);
 }
 
-int64_t check_natural(const char *s){
+int64_t check_natural(const char *s) {
     if (!s)
         return -1;
     size_t len = strlen(s);
@@ -332,7 +337,7 @@ int64_t check_natural(const char *s){
     return ans;
 }
 
-Matrix *gen_matrix(size_t n, size_t m){
+Matrix *gen_matrix(size_t n, size_t m) {
     Matrix *ans = calloc(1, sizeof(Matrix));
 
     setRows(ans, n);
