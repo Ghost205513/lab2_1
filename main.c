@@ -105,7 +105,7 @@ Matrix *input_menu(Matrix *src){
                     break;
                 case '2':
                     free(input);
-                    temp = read_square_matrix_keyboard();
+                    temp = read_matrix_keyboard();
 
                     if (!temp->body){
                         help("im");
@@ -121,7 +121,7 @@ Matrix *input_menu(Matrix *src){
                     return src;
                 case '3':
                     free(input);
-                    temp = read_square_matrix_binary_file();
+                    temp = read_matrix_binary_file();
 
                     if(!temp->body){
                         help("im");
@@ -448,17 +448,17 @@ void help(const char *mod){
                 case 'm':
                     printf("0. Back.\n"
                            "1. Help.\n"
-                           "2. Sourse to console.\n"
+                           "2. Source to console.\n"
                            "3. Result to console.\n"
-                           "4. Sourse to binary file.\n"
+                           "4. Source to binary file.\n"
                            "5. Result to binary file.\n");
                     break;
                 case 'h':
                     printf("0. Move to previous menu.\n"
                            "1. Print this text.\n"
-                           "2. Print sourse square matrix to console.\n"
+                           "2. Print source square matrix to console.\n"
                            "3. Print result matrix to console.\n"
-                           "4. Print sourse square matrix to binary file.\n"
+                           "4. Print source square matrix to binary file.\n"
                            "5. Print result matrix to binary file.\n");
                     break;
                 default:
@@ -470,11 +470,9 @@ void help(const char *mod){
                 case 'm':
                     printf("0. Back.\n"
                            "1. Help.\n"
-                           "2. Row insert.\n"
-                           "3. Column insert.\n"
-                           "4. Row delete.\n"
-                           "5. Column delete.\n"
-                           "6. Determinant.\n");
+                           "2. Sum\n"
+                           "3. Multiply\n"
+                           "4. Transpose\n");
                     break;
                 case 'h':
                     printf("0. Move to previous menu.\n"

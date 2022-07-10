@@ -271,7 +271,7 @@ void print_matrix_binary_file(Matrix src) {
     fclose(file);
 }
 
-double complex *check_complex(char *str) {
+int complex *check_complex(char *str) {
     if (!str)
         return NULL;
     char *token = strtok(str, " \t");
@@ -305,8 +305,6 @@ int *check_int(const char *str) {
     memmove(res, &ans, 1 * sizeof(int));
     return res;
 }
-
-
 
 int gen_int() {
     return rand() % 2 ? -1 * rand() % (int) (pow(2, sizeof(int) * 8 - 1) - 1) : rand() % (int) (pow(2, sizeof(int) * 8 - 1) - 1);
